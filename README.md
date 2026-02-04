@@ -52,7 +52,8 @@ http://127.0.0.1:8081
 Testing
 Success Case
 
-<img width="842" height="495" alt="sucessimage" src="https://github.com/user-attachments/assets/8ad4d358-24f5-4d90-8ded-fe5edaff196f" />
+<img width="842" height="497" alt="Screenshot 2026-02-04 at 1 02 40 PM" src="https://github.com/user-attachments/assets/fd5378e7-3554-409d-8edc-5822f275ad60" />
+
 
 With both services running:
 
@@ -69,7 +70,8 @@ Logs printed in both Service A and Service B showing endpoint, status, and laten
 
 Failure Case
 
-<img width="848" height="453" alt="failureimage" src="https://github.com/user-attachments/assets/956e5a19-c9fc-4988-beee-dfa8a43cca10" />
+
+<img width="847" height="502" alt="failure image" src="https://github.com/user-attachments/assets/cdf0c223-5fdc-49e3-a165-9db5da11606f" />
 
 Stop Service A by pressing Ctrl + C in Terminal 1
 
