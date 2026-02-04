@@ -1,26 +1,93 @@
-# CMPE 273 – Week 1 Lab 1: Your First Distributed System (Starter)
+# CMPE 273 – Week 1 Lab 1: Your First Distributed System
 
-This starter provides two implementation tracks:
-- `python-http/` (Flask + requests)
-- `go-http/` (net/http)
+## Overview
+This lab implements a tiny, locally distributed system consisting of two independent services that communicate over HTTP. The goal is to demonstrate basic service-to-service communication, logging, timeouts, and handling partial failure.
 
-Pick **one** track for Week 1.
+---
 
-## Lab Goal
-Build **two services** that communicate over the network:
-- **Service A** (port 8080): `/health`, `/echo?msg=...`
-- **Service B** (port 8081): `/health`, `/call-echo?msg=...` calls Service A
+## Services
 
-Minimum requirements:
-- Two independent processes
-- HTTP (or gRPC if you choose stretch)
-- Basic logging per request (service name, endpoint, status, latency)
-- Timeout handling in Service B
-- Demonstrate independent failure (stop A; B returns 503 and logs error)
+### Service A (Echo API)
+- Runs on `localhost:8080`
+- Endpoints:
+  - `GET /health` → `{"status":"ok"}`
+  - `GET /echo?msg=hello` → `{"echo":"hello"}`
 
-## Deliverables
-1. Repo link
-2. README updates:
-   - how to run locally
-   - success + failure proof (curl output or screenshot)
-   - 1 short paragraph: “What makes this distributed?”
+### Service B (Client)
+- Runs on `localhost:8081`
+- Endpoints:
+  - `GET /health` → `{"status":"ok"}`
+  - `GET /call-echo?msg=hello`
+    - Calls Service A `/echo`
+    - Uses a timeout
+    - Returns HTTP 503 if Service A is unavailable
+
+---
+
+## How to Run Locally (Mac)
+
+### Terminal 1 – Service A
+```bash
+cd python-http/service-a
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python3 app.py
+Service A will start on:
+
+http://127.0.0.1:8080
+
+Terminal 2 – Service B
+cd python-http/service-b
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python3 app.py
+
+
+Service B will start on:
+
+http://127.0.0.1:8081
+
+Testing
+Success Case
+
+With both services running:
+
+curl "http://127.0.0.1:8081/call-echo?msg=hello"
+
+
+Expected result:
+
+HTTP 200 response
+
+JSON containing the echoed message
+
+Logs printed in both Service A and Service B showing endpoint, status, and latency
+
+Failure Case
+
+Stop Service A by pressing Ctrl + C in Terminal 1
+
+Run the same request again:
+
+curl -i "http://127.0.0.1:8081/call-echo?msg=hello"
+
+
+Expected result:
+
+HTTP 503 Service Unavailable
+
+Service B logs an error indicating Service A is unavailable
+
+What Makes This Distributed?
+
+This system is distributed because it consists of two independent services running as separate processes on different ports that communicate over HTTP. Service B depends on Service A via a network call and must handle partial failure when Service A is unavailable, returning HTTP 503. Even though both services run on localhost, they exhibit key distributed system characteristics such as network communication, independent failure, and fault handling.
+
+Notes
+
+Each service runs in its own process and terminal
+
+Service B uses a timeout when calling Service A
+
+Basic request logging includes service name, endpoint, status, and latency
