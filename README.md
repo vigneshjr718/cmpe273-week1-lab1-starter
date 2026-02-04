@@ -52,6 +52,8 @@ http://127.0.0.1:8081
 Testing
 Success Case
 
+<img width="842" height="495" alt="sucessimage" src="https://github.com/user-attachments/assets/8ad4d358-24f5-4d90-8ded-fe5edaff196f" />
+
 With both services running:
 
 curl "http://127.0.0.1:8081/call-echo?msg=hello"
@@ -66,6 +68,8 @@ JSON containing the echoed message
 Logs printed in both Service A and Service B showing endpoint, status, and latency
 
 Failure Case
+
+<img width="848" height="453" alt="failureimage" src="https://github.com/user-attachments/assets/956e5a19-c9fc-4988-beee-dfa8a43cca10" />
 
 Stop Service A by pressing Ctrl + C in Terminal 1
 
